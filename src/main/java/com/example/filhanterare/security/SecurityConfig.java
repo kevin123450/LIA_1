@@ -43,7 +43,7 @@ public class SecurityConfig {
                 )
                 .userDetailsService(userDetailsService)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         httpSecurity
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
