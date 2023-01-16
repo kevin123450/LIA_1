@@ -1,6 +1,5 @@
 package com.example.filhanterare.service;
 
-import com.example.filhanterare.entities.AppUser;
 import com.example.filhanterare.repo.AppUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

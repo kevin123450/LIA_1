@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/api/customer")
 @CrossOrigin(origins = {"http://localhost:3000"}, methods = {
         RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.POST, RequestMethod.OPTIONS
 })
