@@ -68,7 +68,8 @@ public class LoginService {
         AppUser user = new AppUser(
                 username,
                 email,
-                passwordEncoder.encode(password)
+                passwordEncoder.encode(password),
+                roles
         );
 
         Set<ERole> userRoles = new HashSet<>();
