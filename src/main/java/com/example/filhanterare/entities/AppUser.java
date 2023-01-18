@@ -37,10 +37,11 @@ public class AppUser implements UserDetails {
     @Setter
     private Set<ERole> roles;
 
-    public AppUser(String username, String email, String password) {
+    public AppUser(String username, String email, String password, Set<ERole> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.roles = roles;
     }
 
     public AppUserResponseDTO toResponseDTO() {
