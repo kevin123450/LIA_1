@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "file")
 public class FileDB {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String type;
 
     @Lob
@@ -18,6 +21,7 @@ public class FileDB {
 
     public FileDB() {
     }
+
     public FileDB(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;

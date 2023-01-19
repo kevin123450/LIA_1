@@ -1,7 +1,7 @@
 package com.example.filhanterare.service;
 
 import com.example.filhanterare.model.FileDB;
-import com.example.filhanterare.repo.FileDBrepository;
+import com.example.filhanterare.repo.FileDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class FileStorageService {
 
     @Autowired
-    private FileDBrepository fileDBrepository;
+    private FileDBRepository fileDBrepository;
 
     public FileDB store(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

@@ -20,14 +20,19 @@ public class Customer {
 
     @Id
     private Long id;
+
     @Column(nullable = false)
     private String firstname;
+
     @Column(nullable = false)
     private String lastname;
+
     @Column(nullable = false)
     private String address;
+
     @Column(nullable = false)
     private String zipcode;
+
     @Column(nullable = false)
     private String city;
 
