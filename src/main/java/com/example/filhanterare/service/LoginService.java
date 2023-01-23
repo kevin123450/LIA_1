@@ -6,7 +6,6 @@ import com.example.filhanterare.entities.AppUser;
 import com.example.filhanterare.entities.ERole;
 import com.example.filhanterare.payload.response.MessageResponse;
 import com.example.filhanterare.repo.AppUserRepository;
-import com.example.filhanterare.repo.CustomerRepository;
 import com.example.filhanterare.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,19 +22,18 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AppUserRepository appUserRepository;
-    private final CustomerRepository customerRepository;
+
 
     public LoginService(
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder, JwtUtil jwtUtil,
-            AppUserRepository appUserRepository,
-            CustomerRepository customerRepository
+            AppUserRepository appUserRepository
     ) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.appUserRepository = appUserRepository;
-        this.customerRepository = customerRepository;
+
     }
 
     public ResponseEntity<String> login(String username, String password) {

@@ -3,7 +3,6 @@ package com.example.filhanterare;
 import com.example.filhanterare.entities.AppUser;
 import com.example.filhanterare.entities.ERole;
 import com.example.filhanterare.repo.AppUserRepository;
-import com.example.filhanterare.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,8 +21,6 @@ public class FilhanterareApplication implements CommandLineRunner {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired
-    CustomerRepository customerRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(FilhanterareApplication.class, args);
