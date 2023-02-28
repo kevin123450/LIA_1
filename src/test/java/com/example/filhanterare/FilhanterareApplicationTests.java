@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class FilhanterareApplicationTests {
 
     @Test
-    void contextLoads() {
-    }
+    public void JUnitTest() {
+    assert(true);    }
 
 }
