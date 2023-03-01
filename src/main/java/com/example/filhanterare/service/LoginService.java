@@ -2,14 +2,11 @@ package com.example.filhanterare.service;
 
 
 import com.example.filhanterare.dto.WhoAmIDTO;
+import com.example.filhanterare.entities.AppUser;
+import com.example.filhanterare.entities.ERole;
 import com.example.filhanterare.payload.response.MessageResponse;
 import com.example.filhanterare.repo.AppUserRepository;
-import com.example.filhanterare.repo.CustomerRepository;
 import com.example.filhanterare.security.JwtUtil;
-import com.example.filhanterare.entities.AppUser;
-import com.example.filhanterare.entities.ECustomer;
-import com.example.filhanterare.entities.ERole;
-import com.example.filhanterare.entities.Customer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,19 +22,18 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AppUserRepository appUserRepository;
-    private final CustomerRepository customerRepository;
+
 
     public LoginService(
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder, JwtUtil jwtUtil,
-            AppUserRepository appUserRepository,
-            CustomerRepository customerRepository
+            AppUserRepository appUserRepository
     ) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.appUserRepository = appUserRepository;
-        this.customerRepository = customerRepository;
+
     }
 
     public ResponseEntity<String> login(String username, String password) {
@@ -68,7 +64,8 @@ public class LoginService {
         AppUser user = new AppUser(
                 username,
                 email,
-                passwordEncoder.encode(password)
+                passwordEncoder.encode(password),
+                roles
         );
 
         Set<ERole> userRoles = new HashSet<>();
@@ -90,37 +87,5 @@ public class LoginService {
         user.setRoles(roles);
         appUserRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User successfully registered"));
-    }
-
-    public ResponseEntity<?> customerSignUp(
-            long id, String firstname, String lastname,
-            String address, String zipcode, String city,
-            Set<ECustomer> customerType
-    ) {
-        AppUser user = appUserRepository.findAppUserById(id).orElseThrow();
-
-        Customer customer = new Customer(
-                user, firstname, lastname,
-                address, zipcode, city
-        );
-
-        Set<ECustomer> thisCustomerType = new HashSet<>();
-
-        if (customerType == null) thisCustomerType.add(ECustomer.PRIVATE_CUSTOMER);
-        else {
-            customerType.forEach(type -> {
-                switch (type) {
-                    case COMPANY_CUSTOMER -> {
-                        customerType.add(ECustomer.COMPANY_CUSTOMER);
-                    }
-                    default -> {
-                        customerType.add(ECustomer.PRIVATE_CUSTOMER);
-                    }
-                }
-            });
-        }
-        customer.setCustomerType(customerType);
-        customerRepository.save(customer);
-        return ResponseEntity.ok(new MessageResponse("Customer successfully registered"));
     }
 }
