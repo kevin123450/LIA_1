@@ -30,7 +30,7 @@ public class FilhanterareApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try {
 
-            AppUser appUser1 = new AppUser("William", "william@hotmail.com" ,passwordEncoder.encode("pass"), Set.of(ERole.ADMIN));
+            AppUser appUser1 = new AppUser("William", "william@hotmail.com" ,"pass", Set.of(ERole.ADMIN));
             AppUser appUser2 = new AppUser("Agda", "agda@hotmail.com" ,passwordEncoder.encode("pass"), Set.of(ERole.USER));
             appUserRepository.saveAll(List.of(
                     appUser1,
