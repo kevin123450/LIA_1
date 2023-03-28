@@ -44,6 +44,14 @@ public class AppUser implements UserDetails {
         this.roles = roles;
     }
 
+    public AppUser(long id, String username, String email, String password, Set<ERole> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public AppUserResponseDTO toResponseDTO() {
         return new AppUserResponseDTO(id, username, email);
     }

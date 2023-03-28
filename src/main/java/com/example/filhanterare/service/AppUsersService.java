@@ -20,7 +20,7 @@ public class AppUsersService {
     }
 
     public AppUser findUserById(long userId) {
-        return appUserRepository.findById(userId).orElseThrow();
+        return appUserRepository.findAppUserById(userId).orElseThrow();
     }
 
     public void deleteUserById(long id) {
