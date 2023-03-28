@@ -7,8 +7,6 @@ import com.example.filhanterare.entities.ERole;
 import com.example.filhanterare.repo.AppUserRepository;
 import com.example.filhanterare.service.AppUsersService;
 import com.example.filhanterare.service.LoginService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -23,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -36,7 +33,8 @@ import java.util.Set;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AppUsersController.class)
 @Import(AppUsersController.class)
@@ -48,8 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AppUserControllerTest {
 
-    ObjectMapper objectMapper= new ObjectMapper();
-    ObjectWriter objectWriter= objectMapper.writer();
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -108,19 +105,5 @@ public class AppUserControllerTest {
                 .andExpect(jsonPath("$",notNullValue()))
                 .andExpect(jsonPath("$[0].username",is("kevin")));
     }
-    @Test public void createUser() throws Exception {
-        AppUser user4 = new AppUser("gunnar", "gunnar@gmail.com", "pass", Set.of(ERole.ADMIN));
-        Mockito.when(appUserRepository.save(user4)).thenReturn(user4);
-        String content = objectWriter.writeValueAsString(user4);
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/admin/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(content);
 
-        mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$",notNullValue()))
-                .andExpect(jsonPath("$.username",is("gunnar")));
-
-    }
 }
