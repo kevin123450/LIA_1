@@ -24,13 +24,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Set;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AdminController.class)
@@ -64,19 +64,20 @@ public class AdminControllerTest {
     }
 
     @Test public void createUser() throws Exception {
-        AppUser user4 = new AppUser("gunnar", "gunnar@gmail.com", "pass", Set.of(ERole.ADMIN));
+        AppUser user4 = new AppUser(4,"gunnar", "gunnar@gmail.com", "pass", Set.of(ERole.ADMIN));
 
         Mockito.when(appUserRepository.save(user4)).thenReturn(user4);
-        String content = objectWriter.writeValueAsString(user4);
+        String content1 = objectWriter.writeValueAsString(user4);
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/admin/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(content);
+                .contentType(MediaType.valueOf("application/json"))
+                .content(content1);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", notNullValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username",is("gunnar")));
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.username",is("gunnar")));
 
     }
 

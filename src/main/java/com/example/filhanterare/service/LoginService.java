@@ -79,7 +79,7 @@ public class LoginService {
                         roles.add(ERole.ADMIN);
                     }
                     default -> {
-                        userRoles.add(ERole.USER);
+                        roles.add(ERole.USER);
                     }
                 }
             });
