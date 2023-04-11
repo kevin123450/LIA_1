@@ -1,5 +1,6 @@
 package com.example.filhanterare.controller;
 
+import com.example.filhanterare.dto.AppUserResponseDTO;
 import com.example.filhanterare.dto.SignUpRequestDTO;
 import com.example.filhanterare.service.LoginService;
 import jakarta.validation.Valid;
@@ -18,7 +19,7 @@ public class AdminController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public ResponseEntity<AppUserResponseDTO> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequestDTO) {
         return loginService.signUp(
                 signUpRequestDTO.username(),
                 signUpRequestDTO.password(),

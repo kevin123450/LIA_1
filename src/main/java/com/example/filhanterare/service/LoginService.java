@@ -1,10 +1,10 @@
 package com.example.filhanterare.service;
 
 
+import com.example.filhanterare.dto.AppUserResponseDTO;
 import com.example.filhanterare.dto.WhoAmIDTO;
 import com.example.filhanterare.entities.AppUser;
 import com.example.filhanterare.entities.ERole;
-import com.example.filhanterare.payload.response.MessageResponse;
 import com.example.filhanterare.repo.AppUserRepository;
 import com.example.filhanterare.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -50,16 +49,24 @@ public class LoginService {
         return jwtUtil.parseToken(token);
     }
 
-    public ResponseEntity<?> signUp(String username, String password, String email, Set<ERole> roles) {
-        if (appUserRepository.existsAppUserByUsername(username))
+    public ResponseEntity<AppUserResponseDTO> signUp(String username, String password, String email, Set<ERole> roles) {
+
+        if (username.length() < 3)
+            ResponseEntity.status(401).body("Username is too short");
+
+            else if (username.length() > 20) {
+            ResponseEntity.status(401).body("Username is too long");
+
+        }
+
+      /*  if (appUserRepository.existsAppUserByUsername(username))
             return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Username is already taken"));
+                    .badRequest().build();
 
         if (appUserRepository.existsAppUserByEmail(email))
             return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Email is already in use"));
+                    .badRequest().build();
+                    */
 
         AppUser user = new AppUser(
                 username,
@@ -68,7 +75,7 @@ public class LoginService {
                 roles
         );
 
-        Set<ERole> userRoles = new HashSet<>();
+        /*Set<ERole> userRoles = new HashSet<>();
 
         if (roles == null)
             userRoles.add(ERole.USER);
@@ -84,8 +91,8 @@ public class LoginService {
                 }
             });
         }
-        user.setRoles(roles);
+        user.setRoles(roles);*/
         appUserRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User successfully registered"));
+        return ResponseEntity.ok(user.toResponseDTO());
     }
 }
