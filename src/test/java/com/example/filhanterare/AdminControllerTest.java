@@ -13,12 +13,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Set;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +48,7 @@ public class AdminControllerTest {
 
        // Mockito.when(appUserRepository.save(user4)).thenReturn(user4);
         String content1 = objectWriter.writeValueAsString(user4);
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/admin/signup")
+        MockHttpServletRequestBuilder mockRequest = post("/api/admin/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.valueOf("application/json"))
@@ -70,5 +70,21 @@ public class AdminControllerTest {
                 "\"username\":\"Kevin\",\n"+
     "}";
     }
+    @Test public void exceptionTest() throws Exception {
+        SignUpRequestDTO user4 = new SignUpRequestDTO("is", "gunnar@gmail.com", "pass", Set.of(ERole.ADMIN));
 
+        String content1 = objectWriter.writeValueAsString(user4);
+        MockHttpServletRequestBuilder mockRequest = post("/api/admin/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.valueOf("application/json"))
+                .content(content1)
+                .characterEncoding("UTF-8");
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isBadRequest())
+             //   .andReturn();
+               .andExpect(jsonPath("$", notNullValue()))
+               .andExpect(jsonPath("$.message",is("Username is too long")));
+    }
  }

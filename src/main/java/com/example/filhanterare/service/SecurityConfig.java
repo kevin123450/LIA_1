@@ -36,11 +36,11 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
                 .cors().and()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/file/**").permitAll()
-                        .requestMatchers("/api/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
+            //            .requestMatchers("/api/auth/**").permitAll()
+              //          .requestMatchers("/api/file/**").permitAll()
+                //        .requestMatchers("/api/admin").hasRole("ADMIN")
+                  //      .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
                 .sessionManagement()

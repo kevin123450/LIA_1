@@ -1,10 +1,10 @@
 package com.example.filhanterare.service;
 
 
-import com.example.filhanterare.dto.AppUserResponseDTO;
 import com.example.filhanterare.dto.WhoAmIDTO;
 import com.example.filhanterare.entities.AppUser;
 import com.example.filhanterare.entities.ERole;
+import com.example.filhanterare.message.ResponseMessage;
 import com.example.filhanterare.repo.AppUserRepository;
 import com.example.filhanterare.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -49,13 +49,17 @@ public class LoginService {
         return jwtUtil.parseToken(token);
     }
 
-    public ResponseEntity<AppUserResponseDTO> signUp(String username, String password, String email, Set<ERole> roles) {
+    public ResponseEntity<?> signUp(String username, String password, String email, Set<ERole> roles) {
 
         if (username.length() < 3)
-            ResponseEntity.status(401).body("Username is too short");
+            return ResponseEntity.status(400).body(new ResponseMessage("Username is too short"));
 
             else if (username.length() > 20) {
-            ResponseEntity.status(401).body("Username is too long");
+            return ResponseEntity.status(400).body(new ResponseMessage("Username is too long"));
+        }
+            else if (username.equals( null)){
+            return ResponseEntity.status(400).body(new ResponseMessage("Username is empty"));
+
 
         }
 
